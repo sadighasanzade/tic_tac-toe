@@ -26,7 +26,6 @@ public class Minmax {
         }
 
         // This is the evaluation function as discussed
-// in the previous article ( http://goo.gl/sJgv68 )
        public static int evaluate(char b[][])
         {
             // Checking for Rows for X or O victory.
@@ -77,7 +76,6 @@ public class Minmax {
             return 0;
         }
 
-        // This is the minimax function. It considers all
 // the possible ways the game can go and returns
 // the value of the board
        public  static int minimax(char board[][],

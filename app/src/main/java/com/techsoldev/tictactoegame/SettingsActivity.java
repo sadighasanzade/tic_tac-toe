@@ -28,7 +28,6 @@ public class SettingsActivity extends AppCompatActivity {
     Switch vibrationSwitch;
     Switch soundSwitch;
 
-    private LinearLayout rateUs,feedback ;
 
     private ImageView backBtn;
 
@@ -47,8 +46,6 @@ public class SettingsActivity extends AppCompatActivity {
          soundSwitch = (Switch)  findViewById(R.id.sound_switch);
 
          backBtn = (ImageView) findViewById(R.id.settings_back_btn);
-         rateUs = (LinearLayout) findViewById(R.id.rate_us_layout);
-         feedback = (LinearLayout) findViewById(R.id.feedback_layout);
 
          if(MyServices.VIBRATION_CHECK)
          {
@@ -110,69 +107,9 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-
-        rateUs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                askRatings();
-            }
-        });
-
-        feedback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                composeEmail("Tic Tac Toe Feedback");
-
-               /*
-                try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + "abdullahsh@hotmail.com"));
-
-                    intent.putExtra(Intent.EXTRA_TEXT, "your_text");
-                    startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    //TODO smth
-                }
-
-                */
-            }
-        });
-
     }
 
-    void askRatings() {
-        ReviewManager manager = ReviewManagerFactory.create(this);
-        Task<ReviewInfo> request = manager.requestReviewFlow();
-        request.addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                // We can get the ReviewInfo object
-                ReviewInfo reviewInfo = task.getResult();
-                Task<Void> flow = manager.launchReviewFlow(this, reviewInfo);
-                flow.addOnCompleteListener(task2 -> {
-                    // The flow has finished. The API does not indicate whether the user
-                    // reviewed or not, or even whether the review dialog was shown. Thus, no
-                    // matter the result, we continue our app flow.
-                });
-            } else  {
 
-                //Toast.makeText(getBaseContext(), "App does'nt uploaded on Play Store", Toast.LENGTH_SHORT).show();
-                // There was some problem, continue regardless of the result.
-            }
-        });
-    }
-
-    public void composeEmail( String subject) {
-        try {
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:abdullahsh123@hotmail.com")); // only email apps should handle this
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(Intent.createChooser(intent, "Send feedback"));
-        }
-        } catch (ActivityNotFoundException e) {
-            //TODO smth
-        }
-    }
 
     @Override
     public void onBackPressed() {
